@@ -1,0 +1,24 @@
+service: lets-start 
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: '/'
+          method: GET
+
+  myservice:
+    handler: another-handler.myexample
+    events:
+      - http:
+          path: '/{mypath1}/{mypath2}'
+          method: GET
+
+plugins:
+  - serverless-offline
+  
