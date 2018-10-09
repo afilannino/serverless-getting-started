@@ -1,4 +1,4 @@
-service: lets-start 
+service: a-simple-service
 
 provider:
   name: aws
@@ -12,12 +12,19 @@ functions:
           path: '/'
           method: GET
 
-  myservice:
+  myfunction:
     handler: another-handler.myexample
     events:
       - http:
           path: '/{mypath1}/{mypath2}'
           method: GET
+  
+  appendExtension:
+    handler: another-handler.appendExtension 
+    events: 
+      - http:
+          path: '/append/{extension}'
+          method: POST
 
 plugins:
   - serverless-offline

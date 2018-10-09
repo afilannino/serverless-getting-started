@@ -1,0 +1,17 @@
+{
+  "name": "a-simple-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "dependencies": {
+    "lodash": "^4.17.11"
+  },
+  "devDependencies": {
+    "serverless-offline": "^3.25.17"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}
