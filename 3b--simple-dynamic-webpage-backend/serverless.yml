@@ -1,0 +1,42 @@
+service: simple-dynamic-webpage-backend
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+
+functions:
+  configurationStyle:
+    handler: handlers/configuration.getStyle
+    events:
+      - http:
+          path: '/config/style'
+          method: GET
+
+  configurationContent:
+    handler: handlers/configuration.getContent
+    events:
+      - http:
+          path: '/config/content'
+          method: GET
+
+  configurationFlags:
+    handler: handlers/configuration.getFeatureFlags
+    events:
+      - http:
+          path: '/config/featureflags'
+          method: GET
+
+  data:
+    handler: handlers/retrieveData.getData
+    events:
+      - http:
+          path: '/data'
+          method: GET
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    port: 12345
+  

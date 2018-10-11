@@ -1,0 +1,16 @@
+{
+  "name": "3b--simple-dynamic-webpage-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "debug": "export SLS_DEBUG=* && node --inspect $(which serverless) offline -s dev"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^5.2.0",
+    "serverless-offline": "^3.27.0"
+  }
+}
