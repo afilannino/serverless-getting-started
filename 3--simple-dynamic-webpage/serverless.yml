@@ -1,22 +1,20 @@
 service: simple-dynamic-webpage
 
-frameworkVersion: ">=1.1.0 <2.0.0"
-
 provider:
   name: aws
-  runtime: nodejs4.3
-
-plugins:
-  - serverless-offline
+  runtime: nodejs8.10
 
 functions:
-  landingPage:
-    handler: handler.landingPage
+  homepage:
+    handler: controller/homeController.home
     events:
       - http:
-          method: get
-          path: landing-page
+          method: GET
+          path: /index
 
 custom:
   serverless-offline:
     port: 4000
+
+plugins:
+  - serverless-offline
