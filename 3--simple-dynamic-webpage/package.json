@@ -1,0 +1,13 @@
+{
+  "name": "simple-dynamic-webpage",
+  "version": "0.0.1",
+  "description": "Hookup an AWS API Gateway endpoint to a Lambda function to render HTML on a `GET` request",
+  "author": "Daniel De Gaspari",
+  "license": "MIT",
+  "devDependencies": {
+    "serverless-offline": "^3.25.17"
+  },
+  "dependencies": {
+    "handlebars": "^4.0.12"
+  }
+}
