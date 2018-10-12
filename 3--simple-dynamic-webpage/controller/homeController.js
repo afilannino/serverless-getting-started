@@ -4,71 +4,86 @@ const handlebars = require('handlebars');
 const homeView = require('../view/homeView');
 const axios = require('axios');
 
-module.exports.home = async (event, context) => {
-
-  let data = await getData(event);
-
-  let view = homeView.view;
+// get an HTML with handlebar, giving in input data and template
+function getHTML(data, view) {
+  
   let template = handlebars.compile(view, {
     strict: true
   });
 
-  let html = template(data);
-
-  return {
-    statusCode: 200,
-    headers: {
-      'Content-Type': 'text/html',
-    },
-    body: html
-  };
-
+  return template(data)
 }
 
-async function getData(event) {
-  let urlStyle = '/config/style';
-  let urlContent = '/config/content';
-  let urlFeatures = '/config/featureflags';
-  let urlData = '/data';
-  let url;
 
+// Return url of 3b service
+function calculateUrl () {
+
+  let url = 'PUT HERE YOUR API URL';
   if (process.env.IS_OFFLINE) {
     url = 'http://localhost:4001';
-  } else {
-    url = 'PUT HERE YOUR API URL';
   }
+
+  return url;
+}
+
+
+// retrieve configuration from URL
+async function retrieveConfiguration(url) {
+  console.log("Start Loading configuration from: " + url);
+  let result = axios.get(url);
+  console.log("Configuration from: " + url) + " loaded";;
+  return result;
+}
+
+// retrieve responde array
+async function retrieveResponse() {
+
+  //retrieve style-configuration-type config
+  let urlStyle = '/config/style';
+  //retrieve content of matches
+  let urlContent = '/config/content';
+  //retrieve feature-flags configuration
+  let urlFeatures = '/config/featureflags';
+  //retrieve menu content
+  let urlData = '/data';
+
+  let url = calculateUrl();
 
   urlStyle = url + urlStyle;
+  console.log("URL Style: " + urlStyle);
   urlContent = url + urlContent;
+  console.log("URL Content: " + urlContent);
   urlFeatures = url + urlFeatures;
+  console.log("URL Features: " + urlFeatures);
   urlData = url + urlData;
+  console.log("URL Data: " + urlData);
 
-  function retrieveStyle() {
-    return axios.get(urlStyle);
-  }
-   
-  function retrieveContent() {
-    return axios.get(urlContent);
-  }
-
-  function retrieveFeature() {
-    return axios.get(urlFeatures);
-  }
-
-  function retrieveMatches() {
-    return axios.get(urlData);
-  }
-   
   const retrieveData = async () => {
-    return axios.all([
-      retrieveStyle(), 
-      retrieveContent(), 
-      retrieveFeature(), 
-      retrieveMatches(),
-    ])
+    console.log("Start loading configurations");
+
+    let dataRetrieved = axios.all([
+      retrieveConfiguration(urlStyle), 
+      retrieveConfiguration(urlContent), 
+      retrieveConfiguration(urlFeatures), 
+      retrieveConfiguration(urlData),
+    ]);
+
+    return  dataRetrieved;
   };
 
   let responseArray = await retrieveData();
+  console.log("Configurations loaded");
+
+  return responseArray;
+
+}
+
+
+
+// retrieve data from 3b service
+async function getData(event) {
+
+  let responseArray = await retrieveResponse();
 
   let result = {
     title: responseArray[1].data.title || {},
@@ -81,4 +96,27 @@ async function getData(event) {
 
   //console.log(result);
   return result;
+}
+
+
+
+module.exports.home = async (event, context) => {
+
+  // data retrieved by 3b service
+  let data = await getData(event);
+
+  // HTML template
+  let view = homeView.view;
+
+  // html ready to be printed
+  let html = getHTML(data, view);
+
+  return {
+    statusCode: 200,
+    headers: {
+      'Content-Type': 'text/html',
+    },
+    body: html
+  };
+
 }
