@@ -1,11 +1,11 @@
 {
   "name": "simple-dynamic-webpage",
   "version": "1.0.0",
-  "description": "Hookup an AWS API Gateway endpoint to a Lambda function to render HTML on a `GET` request",
-  "author": "Daniel De Gaspari",
+  "description": "Example service for Serverless framework used for rendering dynamic web page",
+  "author": "Daniel De Gaspari <daniel_DG@hotmail.it>, Angelo Filannino <filannino.angelo@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\"",
     "debug": "export SLS_DEBUG=* && node --inspect $(which serverless) offline -s dev"
   },
   "devDependencies": {

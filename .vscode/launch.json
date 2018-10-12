@@ -1,0 +1,42 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "name": "Debug 2-simple-service",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceRoot}/2--a-simple-service",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run-script",
+                "debug"
+            ],
+            "port": 9229
+        },{
+            "name": "Debug 3-simple-dynamic-webpage",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceRoot}/3--simple-dynamic-webpage",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run-script",
+                "debug"
+            ],
+            "port": 9229
+        },{
+            "name": "Debug 3b-simple-dynamic-webpage-backend",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceRoot}/3b--simple-dynamic-webpage-backend",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run-script",
+                "debug"
+            ],
+            "port": 9229
+        }
+
+
+    ]
+}

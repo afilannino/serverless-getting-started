@@ -1,13 +1,13 @@
 {
   "name": "3b--simple-dynamic-webpage-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Example of backend service for Serverless framework used for rendering dynamic web page",
   "main": "",
   "scripts": {
     "test": "mocha",
     "debug": "export SLS_DEBUG=* && node --inspect $(which serverless) offline -s dev"
   },
-  "author": "",
+  "author": "Angelo Filannino <filannino.angelo@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "chai": "^4.2.0",

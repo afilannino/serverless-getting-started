@@ -1,7 +1,7 @@
 {
   "name": "a-simple-service",
   "version": "1.0.0",
-  "description": "",
+  "description": "Example service for Serverless framework usage",
   "main": "",
   "dependencies": {
     "lodash": "^4.17.11"
@@ -15,6 +15,6 @@
     "test": "mocha",
     "debug": "export SLS_DEBUG=* && node --inspect $(which serverless) offline -s dev"
   },
-  "author": "",
+  "author": "Angelo Filannino <filannino.angelo@gmail.com>",
   "license": "MIT"
 }
