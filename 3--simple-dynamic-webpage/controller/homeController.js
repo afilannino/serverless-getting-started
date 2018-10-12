@@ -1,13 +1,13 @@
 'use strict';
 
 const handlebars = require('handlebars');
-const request = require('request');
 const homeView = require('../view/homeView');
+const axios = require('axios');
 
 module.exports.home = async (event, context) => {
 
-  //let data = await getData(event);
-  let data = {};
+  let data = await getData(event);
+
   let view = homeView.view;
   let template = handlebars.compile(view, {
     strict: true
@@ -20,35 +20,65 @@ module.exports.home = async (event, context) => {
     headers: {
       'Content-Type': 'text/html',
     },
-    body: html,
+    body: html
   };
 
 }
 
 async function getData(event) {
-  const urlStyle = '/config/style';
-  const urlContent = '/config/content';
-  const urlFeatures = '/config/featureflags';
-  let url, style, content, features;
+  let urlStyle = '/config/style';
+  let urlContent = '/config/content';
+  let urlFeatures = '/config/featureflags';
+  let urlData = '/data';
+  let url;
 
-  if (event.headers.Hosts.indexOf('localhost') > -1) {
-    url = 'https://localhost:12345';
+  if (process.env.IS_OFFLINE) {
+    url = 'http://localhost:4001';
   } else {
-    url = 'PUT HERE YOUR PRODUCTION API URL'
+    url = 'PUT HERE YOUR API URL';
   }
 
   urlStyle = url + urlStyle;
+  urlContent = url + urlContent;
+  urlFeatures = url + urlFeatures;
+  urlData = url + urlData;
 
-  await request({
-    method: 'GET',
-    uri: urlStyle
-  }, function (error, response, body) {
-    style = body;
-  })
+  function retrieveStyle() {
+    return axios.get(urlStyle);
+  }
+   
+  function retrieveContent() {
+    return axios.get(urlContent);
+  }
 
-  // do the same for content and featureflags
+  function retrieveFeature() {
+    return axios.get(urlFeatures);
+  }
 
-  // combine data and return them
+  function retrieveMatches() {
+    return axios.get(urlData);
+  }
+   
+  const retrieveData = async () => {
+    return axios.all([
+      retrieveStyle(), 
+      retrieveContent(), 
+      retrieveFeature(), 
+      retrieveMatches(),
+    ])
+  };
 
-  return Object.assign({}, style);
+  let responseArray = await retrieveData();
+
+  let result = {
+    title: responseArray[1].data.title || {},
+    containerClass: responseArray[0].data.navbarColor || {},
+    bodyClass: responseArray[0].data.background || {},
+    navBarElements: responseArray[1].data.navbar || {},
+    matches: responseArray[3].data || {},
+    featureflags: responseArray[2].data || {},
+  };
+
+  //console.log(result);
+  return result;
 }

@@ -10,8 +10,9 @@
   },
   "devDependencies": {
     "handlebars": "^4.0.12",
-    "request": "^2.88.0",
     "serverless-offline": "^3.25.17"
   },
-  "dependencies": {}
+  "dependencies": {
+    "axios": "^0.18.0"
+  }
 }

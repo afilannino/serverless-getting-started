@@ -5,19 +5,18 @@ const randomPicker = require('../common/lib/randomPicker');
 let featureFlags = {
     title: true,
     navbar: true,
-    footer: false
 }
 
 module.exports.getStyle = async (event, context) => {
 
     let styleA = {
-        background: "light-green",
-        navbarColor: "light-blue"
+        background: "tema4",
+        navbarColor: "tema1"
     };
 
     let styleB = {
-        background: "light-grey",
-        navbarColor: "light-red"
+        background: "tema2",
+        navbarColor: "tema3"
     };
 
     return {
@@ -30,13 +29,13 @@ module.exports.getStyle = async (event, context) => {
 module.exports.getContent = async (event, context) => {
 
     let dataA = {
-        title: "Sky Soccer Table",
-        navbar: ["Home", "Prenotazioni", "Prenota una partita"]
+        title: "Foobar Soccer Table",
+        navbar: ["Home", "Prenotazioni", "Prenota una partita", "Mappa", "Il tuo profilo"]
     }
 
     let dataB = {
-        title: "Welcome to Sky Soccer Table",
-        navbar: ["Home", "Prenota una partita", "About us"]
+        title: "Welcome to Foobar Soccer Table",
+        navbar: ["Home", "Prenota una partita", "Raggiungici", "About us", "Registrati"]
     }
 
     return {

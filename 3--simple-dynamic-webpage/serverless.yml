@@ -10,7 +10,7 @@ functions:
     events:
       - http:
           method: GET
-          path: /index
+          path: '/'
 
 custom:
   serverless-offline:
