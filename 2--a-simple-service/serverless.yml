@@ -16,7 +16,7 @@ functions:
     handler: another-handler.myexample
     events:
       - http:
-          path: '/{mypath1}/{mypath2}'
+          path: '/myAPI/{mypath1}/{mypath2}'
           method: GET
   
   appendExtension:
