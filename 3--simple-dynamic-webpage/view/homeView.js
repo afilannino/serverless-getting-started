@@ -35,12 +35,40 @@ module.exports.view = `
             .tema4 {
                 background: white;
             }
+            #section{
+                padding: 2em;
+                margin-top: 1.0em;
+                margin-right: 1.0em;
+                margin-bottom: 1.0em;
+                overflow: hidden;
+            }
+            #tabellaOrari {
+                width: 100%;
+                table-layout: fixed; 
+                padding: 0.5em;
+                text-align: center;
+            }
+            #tabellaOrari th{
+                background-color: #FF6633;
+                padding: 1em;
+                border: 1px solid black;
+            }
+            #tabellaOrari th, td {
+                border: 1px solid black;
+                word-wrap: break-word;
+            }
+            #tabellaOrari caption{
+                font-size:1.5em;
+            }
+            #tabellaOrari tr:nth-child(odd) {
+                background-color: #FFFF99
+            }
         </style>
     </head>
     <body class={{bodyClass}}>
         <h1>Serverless rocks!</h1>
         {{#if featureflags.title}}
-            <h2>{{title}}</h2>
+            <h1>{{title}}</h1>
         {{/if}}
 
         {{#if featureflags.navbar}}
@@ -55,12 +83,38 @@ module.exports.view = `
 
         <ul>
             {{#each matches}}
-                <li> {{#each this.players}}
-                        {{this}}
-                    {{/each}}
-                {{this.timestamp}}</li>
+                <li> 
+                </li>
             {{/each}} 
         </ul>
+
+
+        <div id = "section">
+		<table id="tabellaOrari"  summary="Descrive gli orari delle partite">
+			<caption>Orari:</caption>
+			<thead>
+			<tr class="tabHeaders">
+                <th class="tabHeaders" scope="col">Giocatore 1</th>
+                <th class="tabHeaders" scope="col">Giocatore 2</th>
+                <th class="tabHeaders" scope="col">Giocatore 3</th>
+                <th class="tabHeaders" scope="col">Giocatore 4</th>
+                <th class="tabHeaders" scope="col">Orario della partita</th>
+			</tr>
+			</thead>
+            <tbody>
+                {{#each matches}}
+                    <tr>
+                        {{#each this.players}}
+                            <td>{{this}}</td>
+                        {{/each}}
+                            <td>{{this.timestamp}}</td>
+                    </tr>
+                {{/each}} 
+            
+			</tbody>
+		</table>
+	</div>
+
     </body>
 </html>
 `;
