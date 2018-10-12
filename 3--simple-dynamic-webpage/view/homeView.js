@@ -91,7 +91,6 @@ module.exports.view = `
 
         <div id = "section">
 		<table id="tabellaOrari"  summary="Descrive gli orari delle partite">
-			<caption>Orari:</caption>
 			<thead>
 			<tr class="tabHeaders">
                 <th class="tabHeaders" scope="col">Giocatore 1</th>

@@ -4,87 +4,31 @@ const handlebars = require('handlebars');
 const homeView = require('../view/homeView');
 const axios = require('axios');
 
-// get an HTML with handlebar, giving in input data and template
-function getHTML(data, view) {
-  
-  let template = handlebars.compile(view, {
-    strict: true
-  });
 
-  return template(data)
-}
+module.exports.home = async (event, context) => {
 
+  // Data retrieved by 3b-service
+  let data = await getData(event);
 
-// Return url of 3b service
-function calculateUrl () {
+  // HTML template
+  let view = homeView.view;
 
-  let url = 'PUT HERE YOUR API URL';
-  if (process.env.IS_OFFLINE) {
-    url = 'http://localhost:4001';
-  }
+  // HTML ready
+  let html = getHTML(data, view);
 
-  return url;
-}
-
-
-// retrieve configuration from URL
-async function retrieveConfiguration(url) {
-  console.log("Start Loading configuration from: " + url);
-  let result = axios.get(url);
-  console.log("Configuration from: " + url) + " loaded";;
-  return result;
-}
-
-// retrieve responde array
-async function retrieveResponse() {
-
-  //retrieve style-configuration-type config
-  let urlStyle = '/config/style';
-  //retrieve content of matches
-  let urlContent = '/config/content';
-  //retrieve feature-flags configuration
-  let urlFeatures = '/config/featureflags';
-  //retrieve menu content
-  let urlData = '/data';
-
-  let url = calculateUrl();
-
-  urlStyle = url + urlStyle;
-  console.log("URL Style: " + urlStyle);
-  urlContent = url + urlContent;
-  console.log("URL Content: " + urlContent);
-  urlFeatures = url + urlFeatures;
-  console.log("URL Features: " + urlFeatures);
-  urlData = url + urlData;
-  console.log("URL Data: " + urlData);
-
-  const retrieveData = async () => {
-    console.log("Start loading configurations");
-
-    let dataRetrieved = axios.all([
-      retrieveConfiguration(urlStyle), 
-      retrieveConfiguration(urlContent), 
-      retrieveConfiguration(urlFeatures), 
-      retrieveConfiguration(urlData),
-    ]);
-
-    return  dataRetrieved;
+  return {
+    statusCode: 200,
+    headers: {
+      'Content-Type': 'text/html',
+    },
+    body: html
   };
-
-  let responseArray = await retrieveData();
-  console.log("Configurations loaded");
-
-  return responseArray;
-
 }
 
-
-
-// retrieve data from 3b service
+// Retrieve data from 3b service
 async function getData(event) {
 
   let responseArray = await retrieveResponse();
-
   let result = {
     title: responseArray[1].data.title || {},
     containerClass: responseArray[0].data.navbarColor || {},
@@ -98,25 +42,55 @@ async function getData(event) {
   return result;
 }
 
+// Retrieve responde array
+async function retrieveResponse() {
 
+  let url = getBaseURL();
 
-module.exports.home = async (event, context) => {
+  // URL for style configuration 
+  let urlStyle = url + '/config/style';
+  // URL for page contents
+  let urlContent = url + '/config/content';
+  // URL for feature-flags configuration
+  let urlFeatures = url + '/config/featureflags';
+  // URL for matches content
+  let urlData = url + '/data';
 
-  // data retrieved by 3b service
-  let data = await getData(event);
+  const retrieveData = async () => {
+    //console.log("Start loading configurations");
 
-  // HTML template
-  let view = homeView.view;
-
-  // html ready to be printed
-  let html = getHTML(data, view);
-
-  return {
-    statusCode: 200,
-    headers: {
-      'Content-Type': 'text/html',
-    },
-    body: html
+    return axios.all([
+      retrieveConfiguration(urlStyle), 
+      retrieveConfiguration(urlContent), 
+      retrieveConfiguration(urlFeatures), 
+      retrieveConfiguration(urlData),
+    ]);
   };
 
+  let responseArray = await retrieveData();
+  //console.log("Configurations loaded");
+  return responseArray;
+}
+
+// Retrieve configuration from URL (return a Promise)
+async function retrieveConfiguration(url) {
+  let result = axios.get(url);
+  return result;
+}
+
+// Boilerplate for rendering HTML with Handlebar from data and template
+function getHTML(data, view) {
+  let template = handlebars.compile(view, {
+    strict: true
+  });
+  return template(data)
+}
+
+// Return URL of 3b-service
+function getBaseURL () {
+  let url = 'PUT HERE YOUR API URL';
+  if (process.env.IS_OFFLINE) {
+    url = 'http://localhost:4001';
+  }
+  return url;
 }
