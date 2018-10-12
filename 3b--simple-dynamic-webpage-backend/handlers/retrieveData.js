@@ -2,9 +2,6 @@
 
 let myData = [
 	{
-		players: ["player1","player2","player3","player4"],
-		timestamp: "2018/10/20-13:40"
-	},{
 		players: ["Angelo","Daniel","Andrea","Mimmo"],
 		timestamp: "2018/10/20-14:00"
 	},{
@@ -22,6 +19,7 @@ let myData = [
 	}  
 ]
 
+// Return a body with myData in JSON format with statusCode: 200
 module.exports.getData = async (event, context) => {
   return {
     statusCode: 200,
