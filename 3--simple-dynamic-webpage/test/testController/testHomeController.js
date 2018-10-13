@@ -1,6 +1,6 @@
 const chai = require('chai');
 const assert = chai.assert;
-const homeController = require('../controller/homeController');
+const homeController = require('../../controller/homeController');
 
 describe('homeController-handler', function () {
 

@@ -5,7 +5,7 @@
   "author": "Daniel De Gaspari <daniel_DG@hotmail.it>, Angelo Filannino <filannino.angelo@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha $(find test -name '*.js')",
     "debug": "export SLS_DEBUG=* && node --inspect $(which serverless) offline -s dev"
   },
   "devDependencies": {
