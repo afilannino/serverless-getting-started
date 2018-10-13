@@ -4,6 +4,9 @@ const handlebars = require('handlebars');
 const homeView = require('../view/homeView');
 const axios = require('axios');
 
+const Player = require('../model/player');
+const Match = require('../model/match');
+
 
 module.exports.home = async (event, context) => {
 
@@ -29,13 +32,15 @@ module.exports.home = async (event, context) => {
 async function getData(event) {
 
   let responseArray = await retrieveResponse();
+  let matchList = getMatchList(responseArray[3].data);
+
   let result = {
     title: responseArray[1].data.title || {},
     containerClass: responseArray[0].data.navbarColor || {},
     bodyClass: responseArray[0].data.background || {},
     navBarElements: responseArray[1].data.navbar || {},
-    matches: responseArray[3].data || {},
     featureflags: responseArray[2].data || {},
+    match: matchList || {}, 
   };
 
   //console.log(result);
@@ -93,4 +98,39 @@ function getBaseURL () {
     url = 'http://localhost:4001';
   }
   return url;
+}
+
+// return an array of match in matchList
+function getMatchList(matchList) {
+
+  let singleMatchList = [];
+  let numberOfMatch = matchList.length;
+
+  for (let i = 0; i < numberOfMatch; i++) {
+    
+    let currentMatch = matchList[i];
+    let playerList = getPlayerList(currentMatch);
+    let time = currentMatch.timestamp;
+    
+    singleMatchList.push(new Match(playerList,time));
+  }
+  //POST = matchList contains an array of match
+
+  return singleMatchList;
+}
+
+// return an array Player in currentMatch
+function getPlayerList(currentMatch) {
+
+  const numberOfPlayer = 4;
+  let playerList = [];
+
+  for (let j = 0; j < numberOfPlayer; j++) {
+    let giocatore = currentMatch.players[j];
+    playerList.push(new Player(giocatore));
+    //console.log(player.getName());
+  }
+  // POST = playerList contains 4 player of match currentMatch
+
+  return playerList;
 }
