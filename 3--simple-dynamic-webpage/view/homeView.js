@@ -88,31 +88,30 @@ module.exports.view = `
             {{/each}} 
         </ul>
 
-
-        <div id = "section">
-		<table id="tabellaOrari"  summary="Descrive gli orari delle partite">
-			<thead>
-			<tr class="tabHeaders">
-                <th class="tabHeaders" scope="col">Giocatore 1</th>
-                <th class="tabHeaders" scope="col">Giocatore 2</th>
-                <th class="tabHeaders" scope="col">Giocatore 3</th>
-                <th class="tabHeaders" scope="col">Giocatore 4</th>
-                <th class="tabHeaders" scope="col">Orario della partita</th>
-			</tr>
-			</thead>
-            <tbody>
-                {{#each matches}}
-                    <tr>
-                        {{#each this.players}}
-                            <td>{{this}}</td>
-                        {{/each}}
-                            <td>{{this.timestamp}}</td>
-                    </tr>
-                {{/each}} 
-            
-			</tbody>
-		</table>
-	</div>
+    <div id = "section">
+    <table id="tabellaOrari"  summary="Descrive gli orari delle partite">
+        <thead>
+        <tr class="tabHeaders">
+            <th class="tabHeaders" scope="col">Giocatore 1</th>
+            <th class="tabHeaders" scope="col">Giocatore 2</th>
+            <th class="tabHeaders" scope="col">Giocatore 3</th>
+            <th class="tabHeaders" scope="col">Giocatore 4</th>
+            <th class="tabHeaders" scope="col">Orario della partita</th>
+        </tr>
+        </thead>
+        <tbody>
+            {{#each match}}
+                <tr>
+                    {{#each this.getPlayerList}}
+                    <td>{{this.getName}}</td>
+                    {{/each}}
+                    <td>{{this.getTime}}</td>
+                </tr>
+            {{/each}} 
+        
+        </tbody>
+    </table>
+</div>
 
     </body>
 </html>
