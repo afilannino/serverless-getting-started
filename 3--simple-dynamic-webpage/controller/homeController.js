@@ -7,17 +7,21 @@ const axios = require('axios');
 const Player = require('../model/player');
 const Match = require('../model/match');
 
-
 module.exports.home = async (event, context) => {
 
-  // Data retrieved by 3b-service
-  let data = await getData(event);
+  let html = '';
 
-  // HTML template
-  let view = homeView.view;
-
-  // HTML ready
-  let html = getHTML(data, view);
+  try {
+    // Data retrieved by 3b-service
+    let data = await getData(event);
+    // HTML template
+    let view = homeView.view;
+    // HTML ready
+    html = getHTML(data, view);
+  }
+  catch(error) {
+    console.log('Cannot generate html' + error);
+  }
 
   return {
     statusCode: 200,
@@ -26,6 +30,7 @@ module.exports.home = async (event, context) => {
     },
     body: html
   };
+
 }
 
 // Retrieve data from 3b service
