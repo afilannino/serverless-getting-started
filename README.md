@@ -11,7 +11,7 @@ In order to complete this starting tutorial, the following requirements must be 
     `npm install -g serverless`
 - An **AWS** account (free tier is enough)
   You need to set your AWS account to work properly on your local machine. Follow this easy and useful [serverless guide](https://serverless.com/framework/docs/providers/aws/guide/credentials/)
-- **VisualStudio Code** is stongly suggested but not mandatory
+- **VisualStudio Code** is strongly suggested but not mandatory
 - Run `npm install` in the services folders (when you enter for the first time)
 
 ---
@@ -210,4 +210,12 @@ It is possible to perform unit tests with any npm test package. I made them usin
 
 `npm run test`
 
-## Thank you for your attention 👾🏆🍄
+or
+
+`npm test`
+
+---
+
+## Thank you for your attention 👍🏻🍄👾
+
+[![Thank you](https://www.humorside.com/wp-content/uploads/2017/12/thank-you-meme-28.jpg)](http://serverless.com)
