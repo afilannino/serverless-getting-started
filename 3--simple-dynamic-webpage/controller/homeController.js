@@ -83,7 +83,7 @@ async function retrieveResponse() {
 }
 
 // Retrieve configuration from URL (return a Promise)
-async function retrieveConfiguration(url) {
+function retrieveConfiguration(url) {
   let result = axios.get(url);
   return result;
 }
