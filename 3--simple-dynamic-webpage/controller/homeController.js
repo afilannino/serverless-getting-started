@@ -3,6 +3,7 @@
 const handlebars = require('handlebars');
 const homeView = require('../view/homeView');
 const axios = require('axios');
+const fs = require('fs');
 
 const Player = require('../model/player');
 const Match = require('../model/match');
@@ -12,14 +13,16 @@ module.exports.home = async (event, context) => {
   let html = '';
 
   try {
+
     // Data retrieved by 3b-service
     let data = await getData(event);
+
+    const view = fs.readFileSync('view/homeView.hbs').toString('utf-8');
+
     // HTML template
-    let view = homeView.view;
-    // HTML ready
     html = getHTML(data, view);
   }
-  catch(error) {
+  catch (error) {
     console.log('Cannot generate html' + error);
   }
 
@@ -45,7 +48,7 @@ async function getData(event) {
     bodyClass: responseArray[0].data.background || {},
     navBarElements: responseArray[1].data.navbar || {},
     featureflags: responseArray[2].data || {},
-    match: matchList || {}, 
+    match: matchList || {},
   };
 
   //console.log(result);
@@ -70,9 +73,9 @@ async function retrieveResponse() {
     //console.log("Start loading configurations");
 
     return axios.all([
-      retrieveConfiguration(urlStyle), 
-      retrieveConfiguration(urlContent), 
-      retrieveConfiguration(urlFeatures), 
+      retrieveConfiguration(urlStyle),
+      retrieveConfiguration(urlContent),
+      retrieveConfiguration(urlFeatures),
       retrieveConfiguration(urlData),
     ]);
   };
@@ -84,6 +87,8 @@ async function retrieveResponse() {
 
 // Retrieve configuration from URL (return a Promise)
 function retrieveConfiguration(url) {
+  console.log("Configuration loading started");
+  console.log("Configuration loaded");
   let result = axios.get(url);
   return result;
 }
@@ -97,7 +102,7 @@ function getHTML(data, view) {
 }
 
 // Return URL of 3b-service
-function getBaseURL () {
+function getBaseURL() {
   let url = 'PUT HERE YOUR API URL';
   if (process.env.IS_OFFLINE) {
     url = 'http://localhost:4001';
@@ -107,35 +112,18 @@ function getBaseURL () {
 
 // return an array of match in matchList
 function getMatchList(matchList) {
-
-  let singleMatchList = [];
-  let numberOfMatch = matchList.length;
-
-  for (let i = 0; i < numberOfMatch; i++) {
-    
-    let currentMatch = matchList[i];
-    let playerList = getPlayerList(currentMatch);
-    let time = currentMatch.timestamp;
-    
-    singleMatchList.push(new Match(playerList,time));
-  }
-  //POST = matchList contains an array of match
-
-  return singleMatchList;
+  return matchList
+    .map((element) => {
+      const playerList = getPlayerList(element);
+      return new Match(playerList, element.timestamp);
+    });
 }
 
 // return an array Player in currentMatch
 function getPlayerList(currentMatch) {
-
-  const numberOfPlayer = 4;
-  let playerList = [];
-
-  for (let j = 0; j < numberOfPlayer; j++) {
-    let giocatore = currentMatch.players[j];
-    playerList.push(new Player(giocatore));
-    //console.log(player.getName());
-  }
-  // POST = playerList contains 4 player of match currentMatch
-
-  return playerList;
+  return currentMatch.players
+    .map((element) => {
+      return new Player(element);
+    }
+  );
 }
