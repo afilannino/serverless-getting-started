@@ -1,0 +1,20 @@
+{
+  "name": "simple-dynamic-webpage",
+  "version": "1.0.0",
+  "description": "Example service for Serverless framework used for rendering dynamic web page",
+  "author": "Daniel De Gaspari <daniel_DG@hotmail.it>, Angelo Filannino <filannino.angelo@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha $(find test -name '*.js')",
+    "debug": "export SLS_DEBUG=* && node --inspect $(which serverless) offline -s dev"
+  },
+  "devDependencies": {
+    "handlebars": "^4.0.12",
+    "serverless-offline": "^3.25.17",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
+  },
+  "dependencies": {
+    "axios": "^0.18.0"
+  }
+}
